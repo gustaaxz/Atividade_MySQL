@@ -14,7 +14,7 @@ public class SistemaLE {
                 """;
 
         try(Connection conn = Conexao.conectar();
-            PreparedStatement stmt = conn.prepareStatement(command)){
+            PreparedStatement stmt = conn.prepareStatement(command)) {
             stmt.setInt(1, cliente.getId());
             stmt.setString(2, cliente.getNome());
             stmt.setString(3, cliente.getCpf_cnpj());
@@ -23,7 +23,25 @@ public class SistemaLE {
             stmt.setString(6, cliente.getEstado());
             stmt.executeUpdate();
         }
+    }
 
+    public void salvarMotorista(Motorista motorista) throws SQLException {
+        String command = """
+                INSERT INTO Motorista
+                (id, nome, cnh, veiculo, cidade_base)
+                VALUES
+                (?,?,?,?,?)
+                """;
+
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(command)) {
+            stmt.setInt(1, motorista.getId());
+            stmt.setString(2, motorista.getNome());
+            stmt.setString(3, motorista.getCnh());
+            stmt.setString(4, motorista.getVeiculo());
+            stmt.setString(5, motorista.getCidadebase());
+            stmt.executeUpdate();
+        }
     }
 
     public void excluirCliente(int idExclusao) throws SQLException {

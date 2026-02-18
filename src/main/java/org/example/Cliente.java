@@ -4,7 +4,8 @@ public class Cliente {
     private int id;
     private String nome, cpf_cnpj, endereco, cidade, estado;
 
-    public Cliente(String nome, String cpf_cnpj, String endereco, String cidade, String estado) {
+    public Cliente(int id, String nome, String cpf_cnpj, String endereco, String cidade, String estado) {
+        this.id = id;
         this.nome = nome;
         this.cpf_cnpj = cpf_cnpj;
         this.endereco = endereco;
@@ -12,8 +13,7 @@ public class Cliente {
         this.estado = estado;
     }
 
-    public Cliente(int id, String nome, String cpf_cnpj, String endereco, String cidade, String estado) {
-        this.id = id;
+    public Cliente(String nome, String cpf_cnpj, String endereco, String cidade, String estado) {
         this.nome = nome;
         this.cpf_cnpj = cpf_cnpj;
         this.endereco = endereco;

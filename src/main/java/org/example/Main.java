@@ -145,6 +145,14 @@ public class Main {
         System.out.println("Qual a Cidade Base que o Motorista se desloca?: ");
         String motoristaCidadeBase = sc.nextLine();
 
+        var cadastrarMotorista = new SistemaLE();
+
+        try{
+            cadastrarMotorista.salvarMotorista(new Motorista(motoristaNome, motoristaCnh, motoristaCarro, motoristaCidadeBase));
+        } catch (SQLException e) {
+            System.out.println("Erro ao cadastrar um cliente.");
+            e.printStackTrace();
+        }
     }
 
     public static void criarPedido() {
