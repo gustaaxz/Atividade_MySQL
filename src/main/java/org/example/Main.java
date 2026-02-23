@@ -158,10 +158,10 @@ public class Main {
     public static void criarPedido() {
         System.out.println("Qual o ID do Cliente?: ");
         int pedidoIDCliente = sc.nextInt();
+        sc.nextLine();
 
         System.out.println("Qual a Data do pedido? (dd/mm/aaaa): ");
         String pedidoData = sc.nextLine();
-        sc.nextLine();
 
         System.out.println("Qual o tamanho do pedido?: ");
         String pedidoTamanhom3 = sc.nextLine();

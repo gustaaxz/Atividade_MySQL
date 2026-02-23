@@ -1,13 +1,19 @@
 package org.example;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Pedido {
     private int id, cliente_id;
-    private String data_pedido, volume_m3, peso_kg, statusPedido;
+    private String volume_m3, peso_kg, statusPedido;
+    private LocalDate data_pedido;
+
+    private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public Pedido(int id, int cliente_id, String data_pedido, String volume_m3, String peso_kg, String statusPedido) {
         this.id = id;
         this.cliente_id = cliente_id;
-        this.data_pedido = data_pedido;
+        this.data_pedido = LocalDate.parse(data_pedido, FMT);
         this.volume_m3 = volume_m3;
         this.peso_kg = peso_kg;
         this.statusPedido = statusPedido;
@@ -15,10 +21,18 @@ public class Pedido {
 
     public Pedido(int cliente_id, String data_pedido, String volume_m3, String peso_kg, String statusPedido) {
         this.cliente_id = cliente_id;
-        this.data_pedido = data_pedido;
+        this.data_pedido = LocalDate.parse(data_pedido, FMT);
         this.volume_m3 = volume_m3;
         this.peso_kg = peso_kg;
         this.statusPedido = statusPedido;
+    }
+
+    public LocalDate getData_pedido() {
+        return data_pedido;
+    }
+
+    public void setData_pedido(String data_pedido) {
+        this.data_pedido = LocalDate.parse(data_pedido, FMT);
     }
 
     public int getId() {
@@ -27,10 +41,6 @@ public class Pedido {
 
     public int getCliente_id() {
         return cliente_id;
-    }
-
-    public String getData_pedido() {
-        return data_pedido;
     }
 
     public String getVolume_m3() {
@@ -53,10 +63,6 @@ public class Pedido {
         this.cliente_id = cliente_id;
     }
 
-    public void setData_pedido(String data_pedido) {
-        this.data_pedido = data_pedido;
-    }
-
     public void setVolume_m3(String volume_m3) {
         this.volume_m3 = volume_m3;
     }
@@ -67,5 +73,9 @@ public class Pedido {
 
     public void setStatusPedido(String statusPedido) {
         this.statusPedido = statusPedido;
+    }
+
+    public void setData_pedido(LocalDate data_pedido) {
+        this.data_pedido = data_pedido;
     }
 }

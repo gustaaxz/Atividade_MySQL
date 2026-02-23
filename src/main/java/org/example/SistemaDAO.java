@@ -60,20 +60,17 @@ public class SistemaDAO {
     public void criarPedido (Pedido pedido) throws SQLException {
         String command = """
                 INSERT INTO Pedido
-                (id, cliente_id, data_pedido, volume_m3, peso_kg, statusPedido)
+                (cliente_id, data_pedido, volume_m3, peso_kg, statusPedido)
                 VALUES
-                (?,?,?,?,?,?)
+                (?,?,?,?,?)
                 """;
         try(Connection conn = Conexao.conectar();
             PreparedStatement stmt = conn.prepareStatement(command)){
-            stmt.setInt(1, pedido.getId());
-            stmt.setInt(2, pedido.getCliente_id());
-
-            stmt.setString(3, pedido.getData_pedido());
-
-            stmt.setString(4, pedido.getVolume_m3());
-            stmt.setString(5, pedido.getPeso_kg());
-            stmt.setString(6, pedido.getStatusPedido());
+            stmt.setInt(1, pedido.getCliente_id());
+            stmt.setObject(2, pedido.getData_pedido());
+            stmt.setDouble(3, Double.parseDouble(pedido.getVolume_m3()));
+            stmt.setDouble(4, Double.parseDouble(pedido.getPeso_kg()));
+            stmt.setString(5, pedido.getStatusPedido());
             stmt.executeUpdate();
         }
     }
