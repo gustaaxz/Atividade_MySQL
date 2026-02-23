@@ -122,7 +122,7 @@ public class Main {
         System.out.println("Qual o estado do Cliente?: ");
         String clienteEstado = sc.nextLine();
 
-        var cadastrarCliente = new SistemaLE();
+        var cadastrarCliente = new SistemaDAO();
 
         try{
             cadastrarCliente.salvarCliente(new Cliente(clienteNome, clienteCpf_cnpj, clienteEndereco, clienteCidade, clienteEstado));
@@ -145,7 +145,7 @@ public class Main {
         System.out.println("Qual a Cidade Base que o Motorista se desloca?: ");
         String motoristaCidadeBase = sc.nextLine();
 
-        var cadastrarMotorista = new SistemaLE();
+        var cadastrarMotorista = new SistemaDAO();
 
         try{
             cadastrarMotorista.salvarMotorista(new Motorista(motoristaNome, motoristaCnh, motoristaCarro, motoristaCidadeBase));
@@ -157,10 +157,11 @@ public class Main {
 
     public static void criarPedido() {
         System.out.println("Qual o ID do Cliente?: ");
-        Integer pedidoIDCliente = sc.nextInt();
+        int pedidoIDCliente = sc.nextInt();
 
         System.out.println("Qual a Data do pedido? (dd/mm/aaaa): ");
         String pedidoData = sc.nextLine();
+        sc.nextLine();
 
         System.out.println("Qual o tamanho do pedido?: ");
         String pedidoTamanhom3 = sc.nextLine();
@@ -171,9 +172,18 @@ public class Main {
         System.out.println("Qual o Status do pedido?: ");
         String pedidoStatus = sc.nextLine();
 
+        var criarPedido = new SistemaDAO();
+
+        try {
+            criarPedido.criarPedido(new Pedido(pedidoIDCliente, pedidoData, pedidoTamanhom3, pedidoPeso, pedidoStatus));
+        } catch (SQLException e) {
+            System.out.println("Erro ao cadastrar novo pedido!");
+            e.printStackTrace();
+        }
     }
 
     public static void atribuirPedido() {
+
     }
 
     public static void registrarEventoEntrega() {
