@@ -183,10 +183,12 @@ public class Main {
     }
 
     public static void atribuirPedido() {
-
+        /* Atribuir Pedido ao Motorista (Gerar Entrega) */
     }
 
     public static void registrarEventoEntrega() {
+        /* Registrar Evento de Entrega (Histórico) */
+
         System.out.println("Qual o ID do Pedido?: ");
         Integer entregapedidoID = sc.nextInt();
 
@@ -204,9 +206,12 @@ public class Main {
     }
 
     public static void atualizarStatusEntrega() {
+        /* Atualizar o Status das Entregas */
     }
 
     public static void listarEntregas() {
+        /* Listar Todas as Entregas com Cliente e Motorista */
+
         System.out.println("Qual o ID da entrega?: ");
         Integer historicoIDEntrega = sc.nextInt();
 
@@ -218,6 +223,8 @@ public class Main {
     }
 
     public static void relatorioSistema() {
+        /* Listar Todas as Entregas com Cliente e Motorista */
+
         System.out.println("""
                 --- Menu de Relatórios ---
                 1 - Total de Entregas por Motorista
@@ -235,52 +242,74 @@ public class Main {
         switch(opcaorelatorio) {
             case 1 : {
                 relatorioEntregasPorMotorista();
+                break;
             }
 
             case 2 : {
                 relatorioVolumePorCliente();
+                break;
             }
 
             case 3 : {
                 relatorioPendentesPorEstado();
+                break;
             }
 
             case 4 : {
                 relatorioAtrasosPorCidade();
+                break;
             }
 
             case 0 : {
-                System.out.println("Voltando ao sistema...");
+                System.out.println("Voltando ao sistema...\n\n");
                 inicio();
+                break;
             }
         }
         sc.close();
     }
 
     private static void relatorioEntregasPorMotorista() {
+        /* Total de entregas por motorista */
+
+        System.out.println("Opção 1");
     }
 
     private static void relatorioVolumePorCliente() {
+        /* Clientes com o maior volume de pedidos entregues */
+
+        System.out.println("Opção 2");
     }
 
     private static void relatorioPendentesPorEstado() {
+        /* Pedidos Pendentes por Estado */
+
+        System.out.println("Opção 3");
     }
 
     private static void relatorioAtrasosPorCidade() {
+        /* Entregas Atrasadas por Cidade */
+
+        System.out.println("Opção 4");
     }
 
     public static void buscarPedidoPorDocumento() {
+        /* Buscar Pedido pelo CPF ou CNPJ do Cliente */
     }
 
     public static void cancelarPedido() {
+        /* Cancelar o Pedido */
     }
 
     public static void excluirEntrega() {
+        /* Excluir a entrega (com validação) */
     }
 
     public static void excluirCliente() {
+        /* Excluir um cliente (com verificação de dependência) */
     }
 
     public static void excluirMotorista() {
+        /* Excluir um motorista (com verificação de dependência) */
     }
 }
