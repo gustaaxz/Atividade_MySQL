@@ -12,6 +12,4 @@ relatorioAtrasosPorCidade() (Linha 320) // Entregas Atrasadas por Cidade
 
 cancelarPedido() (Linha 330) // Cancelar o Pedido
 
-excluirEntrega() (Linha 334) // Excluir o historicoEntrega (Com validação)
-
 excluirMotorista() (Linha 359) // Excluir um motorista (Com verificação de dependência)

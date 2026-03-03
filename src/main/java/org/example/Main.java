@@ -249,6 +249,10 @@ public class Main {
 
         System.out.println("Descrição da historicoEntrega: ");
         String historicoDescricao = sc.nextLine();
+
+        var listarEntregas = new SistemaDAO();
+
+
     }
 
     public static void relatorioSistema() throws SQLException {
@@ -351,8 +355,26 @@ public class Main {
         /* Cancelar o Pedido */
     }
 
-    public static void excluirEntrega() {
-        /* Excluir a historicoEntrega (com validação) */
+    public static void excluirEntrega() throws SQLException {
+        System.out.println("Qual o ID da entrega que deseja excluir?: ");
+        int idEntregaExclusao = sc.nextInt();
+        sc.nextLine();
+
+        System.out.println("Você deseja realmente excluir essa entrega? (Sim/Não): ");
+        String escolhaExclusao = sc.nextLine();
+
+        if(escolhaExclusao.equalsIgnoreCase("Não")){
+            System.out.println("A exclusão não foi confirmada.");
+        } else if (escolhaExclusao.equalsIgnoreCase("Sim")){
+            var exclusaoEntrega = new SistemaDAO();
+
+            try {
+                exclusaoEntrega.excluirEntrega(new Entrega(idEntregaExclusao));
+            } catch (SQLException e){
+                System.out.println("Erro na exclusão do pedido!");
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void excluirCliente() {
@@ -362,7 +384,6 @@ public class Main {
         System.out.println("Você tem certeza que deseja excluir esse cliente e TODOS os seus pedidos? \n(S - Sim; N - Não): ");
         String opcaoCerteza = sc.nextLine();
 
-        /* Utilizado equalsIgnoreCase para aceitar 's' ou 'S' */
         if (opcaoCerteza.equalsIgnoreCase("S")) {
             var excluirCliente = new SistemaDAO();
             try {

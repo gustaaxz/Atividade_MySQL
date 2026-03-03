@@ -3,14 +3,18 @@ package org.example;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class AtribuirPedidoMotorista {
+public class Entrega {
     private int id, pedido_id, motorista_id;
     private LocalDate data_saida, data_entrega;
     private String statusEntrega;
 
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public AtribuirPedidoMotorista(int id, int pedido_id, int motorista_id, String data_saida, String data_entrega, String statusEntrega) {
+    public Entrega(int id){
+        this.id = id;
+    }
+
+    public void excluirEntrega(int id, int pedido_id, int motorista_id, String data_saida, String data_entrega, String statusEntrega) {
         this.id = id;
         this.pedido_id = pedido_id;
         this.motorista_id = motorista_id;
@@ -19,7 +23,7 @@ public class AtribuirPedidoMotorista {
         this.statusEntrega = statusEntrega;
     }
 
-    public AtribuirPedidoMotorista(int pedido_id, int motorista_id, String data_saida, String data_entrega, String statusEntrega) {
+    public void excluirEntrega(int pedido_id, int motorista_id, String data_saida, String data_entrega, String statusEntrega) {
         this.pedido_id = pedido_id;
         this.motorista_id = motorista_id;
         this.data_saida = LocalDate.parse(data_saida, FMT);

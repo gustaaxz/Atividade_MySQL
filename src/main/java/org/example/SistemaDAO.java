@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class SistemaDAO {
     public void salvarCliente(Cliente cliente) throws SQLException {
@@ -162,4 +163,23 @@ public class SistemaDAO {
             }
         }
     }
+
+    public void excluirEntrega(Entrega entrega) throws SQLException {
+        String command = """
+                DELETE FROM Pedido WHERE id = ?;
+                """;
+
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(command)){
+            stmt.setInt(1, entrega.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e){
+            System.out.println("Erro ao excluir a entrega desejada!");
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 }
