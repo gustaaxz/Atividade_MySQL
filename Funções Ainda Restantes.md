@@ -7,8 +7,6 @@ relatorioVolumePorCliente() (Linha 308) // Clientes com maior volume de pedidos
 relatorioPendentesPorEstado() (Linha 314) // Pedidos Pendentes por Estado
 relatorioAtrasosPorCidade() (Linha 320) // Entregas Atrasadas por Cidade
 
-buscarPedidoPorDocumento() (Linha 326) // Buscar Pedido por CPF ou CNPJ do Cliente
-
 cancelarPedido() (Linha 330) // Cancelar o Pedido
 
 excluirEntrega() (Linha 334) // Excluir o historicoEntrega (Com validação)
