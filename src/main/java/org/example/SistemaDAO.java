@@ -105,7 +105,7 @@ public class SistemaDAO {
 
     public void registrarEventoEntrega(HistoricoEntrega historicoEntrega) throws SQLException {
         String command = """
-                INSERT INTO Entrega
+                INSERT INTO HistoricoEntrega
                 (id, entrega_id, data_evento, descricao)
                 VALUES
                 (?,?,?,?);

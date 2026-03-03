@@ -223,7 +223,7 @@ public class Main {
         System.out.println("Qual a data da Entrega?: ");
         String data_evento = sc.nextLine();
 
-        System.out.println("Dscrição da entrega: ");
+        System.out.println("Descrição da entrega: ");
         String descricao = sc.nextLine();
 
         var registrarEventoEntrega = new SistemaDAO();
