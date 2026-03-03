@@ -2,6 +2,7 @@ package org.example;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SistemaDAO {
@@ -120,7 +121,7 @@ public class SistemaDAO {
         }
     }
 
-public void atribuirPedidoMotorista(AtribuirPedidoMotorista atribuirPedidoMotorista) throws SQLException {
+    public void atribuirPedidoMotorista(AtribuirPedidoMotorista atribuirPedidoMotorista) throws SQLException {
         String command = """
                 INSERT INTO Entrega
                 (id, pedido_id, motorista_id, data_saida, data_entrega, statusEntrega)
@@ -137,6 +138,28 @@ public void atribuirPedidoMotorista(AtribuirPedidoMotorista atribuirPedidoMotori
             stmt.setObject(5, atribuirPedidoMotorista.getData_entrega());
             stmt.setString(6, atribuirPedidoMotorista.getStatusEntrega());
             stmt.executeUpdate();
+        }
+    }
+
+    public void buscarPedidoPorCpf(BuscarPedidoPorDoc buscarPedidoPorDoc) throws SQLException{
+        String command = """
+                SELECT Pedido.*, Cliente.cpf_cnpj
+                FROM Pedido
+                INNER JOIN Cliente ON Pedido.cliente_id = Cliente.id
+                WHERE Cliente.cpf_cnpj = ?
+                """;
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(command)){
+            stmt.setString(1, buscarPedidoPorDoc.getCliente_cpfcnpj());
+
+            try(ResultSet rs = stmt.executeQuery()) {
+                while(rs.next()){
+                    int idPedido = rs.getInt("id");
+                    String status = rs.getString("statusPedido");
+
+                    System.out.println("Foi encontrado no CPF selecionado o ID do pedido: \nID: " + idPedido + " | Status: " + status);
+                }
+            }
         }
     }
 }

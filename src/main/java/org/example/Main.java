@@ -1,8 +1,6 @@
 package org.example;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
@@ -323,8 +321,30 @@ public class Main {
         System.out.println("Opção 4");
     }
 
-    public static void buscarPedidoPorDocumento() {
-        /* Buscar Pedido pelo CPF ou CNPJ do Cliente */
+    public static void buscarPedidoPorDocumento() throws SQLException {
+        System.out.println("Qual documento deseja usar? (CPF/CNPJ): ");
+        String escolhaDocumento = sc.nextLine();
+        String documento = "";
+
+        if(escolhaDocumento.equalsIgnoreCase("CPF")) {
+            System.out.println("Qual o CPF do Cliente?: ");
+            documento = sc.nextLine();
+        } else if (escolhaDocumento.equalsIgnoreCase("CNPJ")){
+            System.out.println("Qual o CNPJ do Cliente?: ");
+            documento = sc.nextLine();
+        } else {
+            System.out.println("Opção inválida.");
+            return;
+        }
+
+        var buscarPedidoPorDoc = new SistemaDAO();
+
+        try {
+            buscarPedidoPorDoc.buscarPedidoPorCpf(new BuscarPedidoPorDoc(documento));
+        } catch (SQLException e){
+            System.out.println("Erro ao procurar o pedido!");
+            e.printStackTrace();
+        }
     }
 
     public static void cancelarPedido() {
@@ -344,9 +364,9 @@ public class Main {
 
         /* Utilizado equalsIgnoreCase para aceitar 's' ou 'S' */
         if (opcaoCerteza.equalsIgnoreCase("S")) {
-            var dao = new SistemaDAO();
+            var excluirCliente = new SistemaDAO();
             try {
-                dao.excluirCliente(cpfExclusao);
+                excluirCliente.excluirCliente(cpfExclusao);
                 System.out.println("Cliente e seus pedidos excluídos com sucesso!");
             } catch (SQLException e) {
                 System.out.println("Erro ao excluir: " + e.getMessage());
