@@ -1,18 +1,20 @@
 package org.example;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
     static Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         inicio();
     }
 
-    public static void inicio(){
+    public static void inicio() throws SQLException {
         System.out.println("""
-                --- Sistema de Logística ---
+                --- Sistema de Logística ---\n
                 1 - Cadastrar Cliente
                 2 - Cadastrar Motorista
                 3 - Criar Pedido
@@ -182,27 +184,56 @@ public class Main {
         }
     }
 
-    public static void atribuirPedido() {
+    public static void atribuirPedido() throws SQLException {
         /* Atribuir Pedido ao Motorista (Gerar Entrega) */
+
+        System.out.println("Qual o ID do pedido que deseja atribuir ao motorista?: ");
+        int pedidoIDproMotorista = sc.nextInt();
+
+        System.out.println("Qual o ID do motorista que deseja atribuir o pedido?: ");
+        int atribuirIDMotorista = sc.nextInt();
+        sc.nextLine();
+
+        System.out.println("Qual a data de saída do pedido?: ");
+        String dataSaidaPedido = sc.nextLine();
+
+        System.out.println("Qual a data de entrega do pedido?: ");
+        String dataEntregaPedido = sc.nextLine();
+
+        System.out.println("Qual o status da entrega?: ");
+        String statusEntrega = sc.nextLine();
+
+        var atribuirPedido = new SistemaDAO();
+
+        try {
+            atribuirPedido.atribuirPedidoMotorista((new AtribuirPedidoMotorista(pedidoIDproMotorista, atribuirIDMotorista, dataSaidaPedido, dataEntregaPedido, statusEntrega)));
+        } catch (SQLException e) {
+            System.out.println("Erro ao atribuir o pedido ao motorista!");
+            e.printStackTrace();
+        }
     }
 
     public static void registrarEventoEntrega() {
         /* Registrar Evento de Entrega (Histórico) */
 
-        System.out.println("Qual o ID do Pedido?: ");
-        Integer entregapedidoID = sc.nextInt();
+        System.out.println("Qual o ID da Entrega?: ");
+        Integer entregaID = sc.nextInt();
+        sc.nextLine();
 
-        System.out.println("Qual o ID do Motorista?: ");
-        Integer entregapedidoIDm = sc.nextInt();
+        System.out.println("Qual a data da Entrega?: ");
+        String data_evento = sc.nextLine();
 
-        System.out.println("Qual a data de saída da entrega?: ");
-        String entregapedidoSaida = sc.nextLine();
+        System.out.println("Dscrição da entrega: ");
+        String descricao = sc.nextLine();
 
-        System.out.println("Qual a data de entrega da entrega?: ");
-        String entregapedidoEntrega = sc.nextLine();
+        var registrarEventoEntrega = new SistemaDAO();
 
-        System.out.println("Qual o Status da entrega?: ");
-        String entregapedidoStatus = sc.nextLine();
+        try {
+            registrarEventoEntrega.registrarEventoEntrega(new HistoricoEntrega(entregaID, data_evento, descricao));
+        } catch (SQLException e) {
+            System.out.println("Erro ao verificar o histórico do pedido.");
+            e.printStackTrace();
+        }
     }
 
     public static void atualizarStatusEntrega() {
@@ -212,17 +243,17 @@ public class Main {
     public static void listarEntregas() {
         /* Listar Todas as Entregas com Cliente e Motorista */
 
-        System.out.println("Qual o ID da entrega?: ");
+        System.out.println("Qual o ID da historicoEntrega?: ");
         Integer historicoIDEntrega = sc.nextInt();
 
-        System.out.println("Quando ocorreu a entrega?: ");
+        System.out.println("Quando ocorreu a historicoEntrega?: ");
         String historicoDataEntrega = sc.nextLine();
 
-        System.out.println("Descrição da entrega: ");
+        System.out.println("Descrição da historicoEntrega: ");
         String historicoDescricao = sc.nextLine();
     }
 
-    public static void relatorioSistema() {
+    public static void relatorioSistema() throws SQLException {
         /* Listar Todas as Entregas com Cliente e Motorista */
 
         System.out.println("""
@@ -261,7 +292,6 @@ public class Main {
             }
 
             case 0 : {
-                System.out.println("Voltando ao sistema...\n\n");
                 inicio();
                 break;
             }
@@ -302,14 +332,33 @@ public class Main {
     }
 
     public static void excluirEntrega() {
-        /* Excluir a entrega (com validação) */
+        /* Excluir a historicoEntrega (com validação) */
     }
 
     public static void excluirCliente() {
-        /* Excluir um cliente (com verificação de dependência) */
+        System.out.println("Qual o CPF do Cliente que você deseja excluir?: ");
+        String cpfExclusao = sc.nextLine();
+
+        System.out.println("Você tem certeza que deseja excluir esse cliente e TODOS os seus pedidos? \n(S - Sim; N - Não): ");
+        String opcaoCerteza = sc.nextLine();
+
+        /* Utilizado equalsIgnoreCase para aceitar 's' ou 'S' */
+        if (opcaoCerteza.equalsIgnoreCase("S")) {
+            var dao = new SistemaDAO();
+            try {
+                dao.excluirCliente(cpfExclusao);
+                System.out.println("Cliente e seus pedidos excluídos com sucesso!");
+            } catch (SQLException e) {
+                System.out.println("Erro ao excluir: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Operação cancelada. O cliente não foi excluído.");
+        }
     }
 
     public static void excluirMotorista() {
         /* Excluir um motorista (com verificação de dependência) */
+
+
     }
 }

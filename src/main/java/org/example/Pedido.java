@@ -31,14 +31,6 @@ public class Pedido {
         return data_pedido;
     }
 
-    public void setData_pedido(String data_pedido) {
-        this.data_pedido = LocalDate.parse(data_pedido, FMT);
-    }
-
-    public int getId() {
-        return id;
-    }
-
     public int getCliente_id() {
         return cliente_id;
     }
@@ -53,6 +45,14 @@ public class Pedido {
 
     public String getStatusPedido() {
         return statusPedido;
+    }
+
+    public void setData_pedido(String data_pedido) {
+        this.data_pedido = LocalDate.parse(data_pedido, FMT);
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setId(int id) {

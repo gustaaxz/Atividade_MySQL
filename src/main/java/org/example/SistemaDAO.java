@@ -44,16 +44,44 @@ public class SistemaDAO {
         }
     }
 
-    public void excluirCliente(int idExclusao) throws SQLException {
-        String command = """
-                DELETE FROM cliente WHERE id = ?;
-                """;
+    public void excluirCliente(String cpf) throws SQLException {
+        // 1. Primeiro buscamos o ID do cliente usando o CPF
+        String sqlBuscaId = """
+               SELECT id FROM Cliente WHERE cpf_cnpj = ?
+               """;
 
-        try(Connection conn = Conexao.conectar();
-            PreparedStatement stmt = conn.prepareStatement(command)){
+        int clienteId = -1;
 
-            stmt.setInt(1, idExclusao);
-            stmt.executeUpdate();
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmtBusca = conn.prepareStatement(sqlBuscaId)) {
+
+            stmtBusca.setString(1, cpf);
+            var rs = stmtBusca.executeQuery();
+
+            if (rs.next()) {
+                clienteId = rs.getInt("id");
+            }
+        }
+
+        // 2. Se o cliente existir (id != -1), apagamos primeiro os pedidos e depois o cliente
+        if (clienteId != -1) {
+            try (Connection conn = Conexao.conectar()) {
+                // Deletar pedidos
+                String sqlDelPedidos = "DELETE FROM Pedido WHERE cliente_id = ?";
+                try (PreparedStatement stmtPed = conn.prepareStatement(sqlDelPedidos)) {
+                    stmtPed.setInt(1, clienteId);
+                    stmtPed.executeUpdate();
+                }
+
+                // Deletar o cliente
+                String sqlDelCliente = "DELETE FROM Cliente WHERE id = ?";
+                try (PreparedStatement stmtCli = conn.prepareStatement(sqlDelCliente)) {
+                    stmtCli.setInt(1, clienteId);
+                    stmtCli.executeUpdate();
+                }
+            }
+        } else {
+            throw new SQLException("Cliente não encontrado com o CPF informado.");
         }
     }
 
@@ -62,7 +90,7 @@ public class SistemaDAO {
                 INSERT INTO Pedido
                 (cliente_id, data_pedido, volume_m3, peso_kg, statusPedido)
                 VALUES
-                (?,?,?,?,?)
+                (?,?,?,?,?);
                 """;
         try(Connection conn = Conexao.conectar();
             PreparedStatement stmt = conn.prepareStatement(command)){
@@ -71,6 +99,43 @@ public class SistemaDAO {
             stmt.setDouble(3, Double.parseDouble(pedido.getVolume_m3()));
             stmt.setDouble(4, Double.parseDouble(pedido.getPeso_kg()));
             stmt.setString(5, pedido.getStatusPedido());
+            stmt.executeUpdate();
+        }
+    }
+
+    public void registrarEventoEntrega(HistoricoEntrega historicoEntrega) throws SQLException {
+        String command = """
+                INSERT INTO Entrega
+                (id, entrega_id, data_evento, descricao)
+                VALUES
+                (?,?,?,?);
+                """;
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(command)){
+            stmt.setInt(1, historicoEntrega.getId());
+            stmt.setInt(2, historicoEntrega.getEntrega_id());
+            stmt.setObject(3, historicoEntrega.getData_evento());
+            stmt.setString(4, historicoEntrega.getDescricao());
+            stmt.executeUpdate();
+        }
+    }
+
+public void atribuirPedidoMotorista(AtribuirPedidoMotorista atribuirPedidoMotorista) throws SQLException {
+        String command = """
+                INSERT INTO Entrega
+                (id, pedido_id, motorista_id, data_saida, data_entrega, statusEntrega)
+                VALUES
+                (?,?,?,?,?,?);
+                """;
+
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(command)){
+            stmt.setInt(1, atribuirPedidoMotorista.getId());
+            stmt.setInt(2, atribuirPedidoMotorista.getPedido_id());
+            stmt.setInt(3, atribuirPedidoMotorista.getMotorista_id());
+            stmt.setObject(4, atribuirPedidoMotorista.getData_saida());
+            stmt.setObject(5, atribuirPedidoMotorista.getData_entrega());
+            stmt.setString(6, atribuirPedidoMotorista.getStatusEntrega());
             stmt.executeUpdate();
         }
     }

@@ -21,6 +21,16 @@ public class Cliente {
         this.estado = estado;
     }
 
+
+    public Cliente(int exclusaoPorCPF) {
+
+    }
+
+    public Cliente(String exclusaoPorCPF) {
+
+    }
+
+
     public int getId() {
         return id;
     }
