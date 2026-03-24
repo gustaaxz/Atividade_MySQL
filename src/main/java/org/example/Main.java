@@ -255,18 +255,18 @@ public class Main {
     public static void listarEntregas() {
         /* Listar Todas as Entregas com Cliente e Motorista */
 
-        System.out.println("Qual o ID da historicoEntrega?: ");
+        System.out.println("Qual o ID da Entrega?: ");
         Integer historicoIDEntrega = sc.nextInt();
 
-        System.out.println("Quando ocorreu a historicoEntrega?: ");
-        String historicoDataEntrega = sc.nextLine();
-
-        System.out.println("Descrição da historicoEntrega: ");
-        String historicoDescricao = sc.nextLine();
 
         var listarEntregas = new SistemaDAO();
 
-
+        try {
+            listarEntregas.listarTodasEntregas(new Entrega(historicoIDEntrega));
+        } catch (SQLException e) {
+            System.out.println("Ocorreu um erro ao listar as entregas!");
+            e.printStackTrace();
+        }
     }
 
     public static void relatorioSistema() throws SQLException {

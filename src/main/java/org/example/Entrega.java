@@ -8,7 +8,7 @@ public class Entrega {
     private int pedido_id;
     private int motorista_id, idEntregaStatus;
     private LocalDate data_saida, data_entrega;
-    private String statusEntrega, novoStatusEntrega;
+    private String statusEntrega, novoStatusEntrega, cliente_nome, motorista_nome;
 
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -18,6 +18,9 @@ public class Entrega {
     }
 
     public Entrega(int idEntregaExclusao) {
+    }
+
+    public Entrega(int id, String dataEn, String dataSa, String statusEn, String clienteNome, String motoristaNome) {
     }
 
     private void getNovoStatusEntrega(int id, String novoStatusEntrega) {
@@ -44,6 +47,31 @@ public class Entrega {
         this.data_saida = LocalDate.parse(data_saida, FMT);
         this.data_entrega = LocalDate.parse(data_entrega, FMT);
         this.statusEntrega = statusEntrega;
+    }
+
+    public void listarEntregas(int id, String motorista_nome, String cliente_nome, String data_saida, String data_entrega, String statusEntrega) {
+        this.id = id;
+        this.cliente_nome = cliente_nome;
+        this.motorista_nome = motorista_nome;
+        this.data_saida = LocalDate.parse(data_saida, FMT);
+        this.data_entrega = LocalDate.parse(data_entrega, FMT);
+        this.statusEntrega = statusEntrega;
+    }
+
+    public String getCliente_nome() {
+        return cliente_nome;
+    }
+
+    public void setCliente_nome(String cliente_nome) {
+        this.cliente_nome = cliente_nome;
+    }
+
+    public String getMotorista_nome() {
+        return motorista_nome;
+    }
+
+    public void setMotorista_nome(String motorista_nome) {
+        this.motorista_nome = motorista_nome;
     }
 
     public String getNovoStatusEntrega() {

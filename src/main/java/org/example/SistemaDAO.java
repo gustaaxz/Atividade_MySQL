@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SistemaDAO {
     public void salvarCliente(Cliente cliente) throws SQLException {
@@ -237,4 +239,38 @@ public class SistemaDAO {
             }
         }
     }
+
+    public void listarTodasEntregas(Entrega entrega) throws SQLException {
+        String command = """
+                SELECT
+                    e.id, e.data_entrega, e.data_saida, e.statusEntrega,
+                    c.nome AS nome_cliente,
+                    m.nome AS nome_motorista
+                FROM Entrega e
+                INNER JOIN Pedido p ON e.pedido_id = p.id
+                INNER JOIN Cliente c ON p.cliente_id = c.id
+                INNER JOIN Motorista m ON e.motorista_id = m.id;
+                """;
+
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(command)){
+            ResultSet rs = stmt.executeQuery();
+            List<Entrega> entregas = new ArrayList<>();
+            while (rs.next()){
+                int id = rs.getInt("e.id");
+                String dataEn = rs.getString("e.data_entrega");
+                String dataSa = rs.getString("e.data_saida");
+                String statusEn = rs.getString("e.statusEntrega");
+                String clienteNome = rs.getString("nome_cliente");
+                String motoristaNome = rs.getString("nome_motorista");
+
+                entregas.add(new Entrega(id, dataEn, dataSa, statusEn, clienteNome, motoristaNome));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar as entregas!");
+            e.printStackTrace();
+        }
+    }
+
+
 }
