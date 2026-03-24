@@ -318,7 +318,6 @@ public class Main {
     private static void relatorioEntregasPorMotorista() {
         /* Total de entregas por motorista */
 
-        System.out.println("Opção 1");
     }
 
     private static void relatorioVolumePorCliente() {

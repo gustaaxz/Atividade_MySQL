@@ -272,5 +272,26 @@ public class SistemaDAO {
         }
     }
 
+    public void relatorioEntregaPorMotorista () throws SQLException {
+        /* Total de entregas por motorista */
+        String command = """
+                
+                """;
 
+    }
+
+    public void relatorioVolumePorCliente () throws SQLException {
+        /* Clientes com o maior volume de pedidos entregues */
+
+    }
+
+    public void relatorioPendentesPorEstado () throws SQLException {
+        /* Pedidos Pendentes por Estado */
+
+    }
+
+    public void relatorioAtrasosPorCidade () throws SQLException {
+        /* Entregas Atrasadas por Cidade */
+
+    }
 }
