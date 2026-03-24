@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 public class SistemaDAO {
     public void salvarCliente(Cliente cliente) throws SQLException {
@@ -47,7 +46,6 @@ public class SistemaDAO {
     }
 
     public void excluirCliente(String cpf) throws SQLException {
-        // 1. Primeiro buscamos o ID do cliente usando o CPF
         String sqlBuscaId = """
                SELECT id FROM Cliente WHERE cpf_cnpj = ?
                """;
@@ -65,7 +63,6 @@ public class SistemaDAO {
             }
         }
 
-        // 2. Se o cliente existir (id != -1), apagamos primeiro os pedidos e depois o cliente
         if (clienteId != -1) {
             try (Connection conn = Conexao.conectar()) {
                 // Deletar pedidos
@@ -75,7 +72,6 @@ public class SistemaDAO {
                     stmtPed.executeUpdate();
                 }
 
-                // Deletar o cliente
                 String sqlDelCliente = "DELETE FROM Cliente WHERE id = ?";
                 try (PreparedStatement stmtCli = conn.prepareStatement(sqlDelCliente)) {
                     stmtCli.setInt(1, clienteId);
@@ -166,7 +162,8 @@ public class SistemaDAO {
 
     public void excluirEntrega(Entrega entrega) throws SQLException {
         String command = """
-                DELETE FROM Pedido WHERE id = ?;
+                DELETE FROM Pedido 
+                WHERE id = ?;
                 """;
 
         try(Connection conn = Conexao.conectar();
@@ -179,7 +176,22 @@ public class SistemaDAO {
         }
     }
 
+    public void atualizarStatusEntrega(Entrega entrega) throws SQLException {
+        String command = """
+                UPDATE Entrega
+                SET statusEntrega = ?
+                WHERE id = ?;
+                """;
 
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(command)){
+            stmt.setString(1, entrega.getNovoStatusEntrega());
+            stmt.setInt(2, entrega.getIdEntregaStatus());
+            stmt.executeUpdate();
 
-
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar o Status da Entrega.");
+            e.printStackTrace();
+        }
+    }
 }

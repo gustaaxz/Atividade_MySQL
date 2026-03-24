@@ -235,7 +235,21 @@ public class Main {
     }
 
     public static void atualizarStatusEntrega() {
-        /* Atualizar o Status das Entregas */
+        System.out.println("Qual o ID da entrega que deseja atualizar o STATUS?: ");
+        int idEntregaStatus = sc.nextInt();
+        sc.nextLine();
+
+        System.out.println("Qual o novo STATUS que deseja inserir ao pedido?: ");
+        String novoStatusEntrega = sc.nextLine();
+
+        var NovoStatusEntrega = new SistemaDAO();
+
+        try {
+            NovoStatusEntrega.atualizarStatusEntrega(new Entrega(idEntregaStatus, novoStatusEntrega));
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar o Status da Entrega.");
+            e.printStackTrace();
+        }
     }
 
     public static void listarEntregas() {

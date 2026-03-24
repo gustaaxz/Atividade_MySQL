@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class HistoricoEntrega {
-    private int id, entrega_id;
+    private int id, entrega_id, idEntregaStatus;
     private LocalDate data_evento;
-    private String descricao;
+    private String descricao, novoStatusEntrega;
 
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -23,6 +23,19 @@ public class HistoricoEntrega {
         this.descricao = descricao;
     }
 
+    public void NovoStatusEntrega(int entrega_id, String novoStatusEntrega) {
+        this.entrega_id = entrega_id;
+        this.novoStatusEntrega = novoStatusEntrega;
+    }
+
+    public void NovoStatusEntrega(String novoStatusEntrega) {
+        this.novoStatusEntrega = novoStatusEntrega;
+    }
+
+    public HistoricoEntrega(String novoStatusEntrega, int idEntregaStatus) {
+        this.idEntregaStatus = idEntregaStatus;
+    }
+
     public int getId() {
         return id;
     }
@@ -37,6 +50,22 @@ public class HistoricoEntrega {
 
     public String getDescricao() {
         return descricao;
+    }
+
+    public int getIdEntregaStatus() {
+        return idEntregaStatus;
+    }
+
+    public String getNovoStatusEntrega() {
+        return novoStatusEntrega;
+    }
+
+    public void setIdEntregaStatus(int idEntregaStatus) {
+        this.idEntregaStatus = idEntregaStatus;
+    }
+
+    public void setNovoStatusEntrega(String novoStatusEntrega) {
+        this.novoStatusEntrega = novoStatusEntrega;
     }
 
     public void setId(int id) {

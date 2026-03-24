@@ -4,14 +4,29 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Entrega {
-    private int id, pedido_id, motorista_id;
+    private int id;
+    private int pedido_id;
+    private int motorista_id, idEntregaStatus;
     private LocalDate data_saida, data_entrega;
-    private String statusEntrega;
+    private String statusEntrega, novoStatusEntrega;
 
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public Entrega(int id){
+    public Entrega(int idEntregaStatus, String novoStatusEntrega) {
+        this.idEntregaStatus = idEntregaStatus;
+        this.novoStatusEntrega = novoStatusEntrega;
+    }
+
+    public Entrega(int idEntregaExclusao) {
+    }
+
+    private void getNovoStatusEntrega(int id, String novoStatusEntrega) {
         this.id = id;
+        this.novoStatusEntrega = novoStatusEntrega;
+    }
+
+    private void getNovoStatusEntrega(String novoStatusEntrega) {
+        this.novoStatusEntrega = novoStatusEntrega;
     }
 
     public void excluirEntrega(int id, int pedido_id, int motorista_id, String data_saida, String data_entrega, String statusEntrega) {
@@ -29,6 +44,22 @@ public class Entrega {
         this.data_saida = LocalDate.parse(data_saida, FMT);
         this.data_entrega = LocalDate.parse(data_entrega, FMT);
         this.statusEntrega = statusEntrega;
+    }
+
+    public String getNovoStatusEntrega() {
+        return novoStatusEntrega;
+    }
+
+    public void setNovoStatusEntrega(String novoStatusEntrega) {
+        this.novoStatusEntrega = novoStatusEntrega;
+    }
+
+    public int getIdEntregaStatus() {
+        return idEntregaStatus;
+    }
+
+    public void setIdEntregaStatus(int idEntregaStatus) {
+        this.idEntregaStatus = idEntregaStatus;
     }
 
     public int getId() {
