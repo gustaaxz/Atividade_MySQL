@@ -8,6 +8,4 @@ relatorioPendentesPorEstado() (Linha 314) // Pedidos Pendentes por Estado
 
 relatorioAtrasosPorCidade() (Linha 320) // Entregas Atrasadas por Cidade
 
-cancelarPedido() (Linha 330) // Cancelar o Pedido
-
 excluirMotorista() (Linha 359) // Excluir um motorista (Com verificação de dependência)
