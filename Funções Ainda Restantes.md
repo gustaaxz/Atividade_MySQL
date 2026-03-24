@@ -7,5 +7,3 @@ relatorioVolumePorCliente() (Linha 308) // Clientes com maior volume de pedidos
 relatorioPendentesPorEstado() (Linha 314) // Pedidos Pendentes por Estado 
 
 relatorioAtrasosPorCidade() (Linha 320) // Entregas Atrasadas por Cidade
-
-excluirMotorista() (Linha 359) // Excluir um motorista (Com verificação de dependência)

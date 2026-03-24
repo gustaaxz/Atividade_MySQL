@@ -423,8 +423,23 @@ public class Main {
     }
 
     public static void excluirMotorista() {
-        /* Excluir um motorista (com verificação de dependência) */
+        System.out.println("Qual o ID do Motorista que você deseja excluir?: ");
+        int idExclusao = sc.nextInt();
+        sc.nextLine();
 
+        System.out.println("Confirmar exclusão e de todas as entregas? (S/N): ");
+        String opcaoCerteza = sc.nextLine();
 
+        if (opcaoCerteza.equalsIgnoreCase("S")) {
+            SistemaDAO dao = new SistemaDAO();
+            try {
+                dao.excluirMotoristaNoBanco(idExclusao);
+                System.out.println("Excluído com sucesso!");
+            } catch (SQLException e) {
+                System.err.println("Erro: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Operação cancelada.");
+        }
     }
 }

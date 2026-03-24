@@ -5,8 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Motorista {
-    private String nome, cnh, veiculo, cidadebase;
-    private int id;
+    private String nome, cnh, veiculo, cidadebase, opcaoCerteza;
+    private int id, idExclusao;
 
     public Motorista(int id, String nome, String cnh, String veiculo, String cidadebase) {
         this.id = id;
@@ -21,6 +21,19 @@ public class Motorista {
         this.cnh = cnh;
         this.veiculo = veiculo;
         this.cidadebase = cidadebase;
+    }
+
+    public Motorista (int idExclusao, String opcaoCerteza) {
+        this.idExclusao = idExclusao;
+        this.opcaoCerteza = opcaoCerteza;
+    }
+
+    public String getOpcaoCerteza() {
+        return opcaoCerteza;
+    }
+
+    public int getIdExclusao() {
+        return idExclusao;
     }
 
     public String getNome() {
@@ -41,6 +54,14 @@ public class Motorista {
 
     public int getId() {
         return id;
+    }
+
+    public void setOpcaoCerteza(String opcaoCerteza) {
+        this.opcaoCerteza = opcaoCerteza;
+    }
+
+    public void setIdExclusao(int idExclusao) {
+        this.idExclusao = idExclusao;
     }
 
     public void setId(int id) {

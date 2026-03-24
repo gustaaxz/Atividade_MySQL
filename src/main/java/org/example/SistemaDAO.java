@@ -1,7 +1,5 @@
 package org.example;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -209,6 +207,34 @@ public class SistemaDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao excluir o pedido!");
             e.printStackTrace();
+        }
+    }
+
+    public void excluirMotoristaNoBanco(int idExclusao) throws SQLException {
+        String sqlEntregas = "DELETE FROM Entrega WHERE motorista_id = ?";
+        String sqlMotorista = "DELETE FROM Motorista WHERE id = ?";
+
+        try (Connection conn = Conexao.conectar()) {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement stmtEnt = conn.prepareStatement(sqlEntregas);
+                 PreparedStatement stmtMot = conn.prepareStatement(sqlMotorista)) {
+
+                stmtEnt.setInt(1, idExclusao);
+                stmtEnt.executeUpdate();
+
+                stmtMot.setInt(1, idExclusao);
+                int linhasAfetadas = stmtMot.executeUpdate();
+
+                if (linhasAfetadas == 0) {
+                    throw new SQLException("ID não encontrado.");
+                }
+
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
         }
     }
 }
