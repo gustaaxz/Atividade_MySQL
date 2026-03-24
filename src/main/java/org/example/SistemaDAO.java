@@ -1,5 +1,7 @@
 package org.example;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -191,6 +193,21 @@ public class SistemaDAO {
 
         } catch (SQLException e) {
             System.out.println("Erro ao atualizar o Status da Entrega.");
+            e.printStackTrace();
+        }
+    }
+
+    public void cancelarPedido (Pedido pedido) throws SQLException {
+        String command = """
+                DELETE FROM Pedido WHERE id = ?
+                """;
+
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(command)){
+            stmt.setInt(1, pedido.getPedidoIdCancelar());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Erro ao excluir o pedido!");
             e.printStackTrace();
         }
     }

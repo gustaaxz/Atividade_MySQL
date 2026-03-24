@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Pedido {
-    private int id, cliente_id;
+    private int id, cliente_id, pedidoIdCancelar;
     private String volume_m3, peso_kg, statusPedido;
     private LocalDate data_pedido;
 
@@ -27,6 +27,10 @@ public class Pedido {
         this.statusPedido = statusPedido;
     }
 
+    public Pedido(int pedidoIdCancelar) {
+        this.pedidoIdCancelar = pedidoIdCancelar;
+    }
+
     public LocalDate getData_pedido() {
         return data_pedido;
     }
@@ -47,12 +51,20 @@ public class Pedido {
         return statusPedido;
     }
 
-    public void setData_pedido(String data_pedido) {
-        this.data_pedido = LocalDate.parse(data_pedido, FMT);
+    public int getPedidoIdCancelar() {
+        return pedidoIdCancelar;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setPedidoIdCancelar(int pedidoIdCancelar) {
+        this.pedidoIdCancelar = pedidoIdCancelar;
+    }
+
+    public void setData_pedido(String data_pedido) {
+        this.data_pedido = LocalDate.parse(data_pedido, FMT);
     }
 
     public void setId(int id) {

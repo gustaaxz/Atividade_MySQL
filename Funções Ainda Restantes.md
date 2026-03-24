@@ -1,7 +1,5 @@
 **\* Coisas a fazer \***
 
-atualizarStatusEntrega() (Linha 239) // Atualizar o Status das Entregas
-
 relatorioEntregasPorMotorista() (Linha 302) // Total de entregas por motorista 
 
 relatorioVolumePorCliente() (Linha 308) // Clientes com maior volume de pedidos entregues 

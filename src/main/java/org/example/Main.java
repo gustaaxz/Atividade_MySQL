@@ -366,7 +366,18 @@ public class Main {
     }
 
     public static void cancelarPedido() {
-        /* Cancelar o Pedido */
+        System.out.println("Qual o ID do pedido que deseja cancelar?: ");
+        int pedidoIdCancelar = sc.nextInt();
+        sc.nextLine();
+
+        var cancelarPedido = new SistemaDAO();
+
+        try {
+            cancelarPedido.cancelarPedido(new Pedido(pedidoIdCancelar));
+        } catch (SQLException e) {
+            System.out.println("Erro ao cancelar o pedido!");
+            e.printStackTrace();
+        }
     }
 
     public static void excluirEntrega() throws SQLException {
