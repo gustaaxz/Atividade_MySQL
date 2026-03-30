@@ -1,8 +1,8 @@
 package org.example;
 
 public class Cliente {
-    private int id;
-    private String nome, cpf_cnpj, endereco, cidade, estado;
+    private int id, quantidadePedidosCliente;
+    private String nome, cpf_cnpj, endereco, cidade, estado, nome_cliente, estadoCliente, statusEntrega;
 
     public Cliente(int id, String nome, String cpf_cnpj, String endereco, String cidade, String estado) {
         this.id = id;
@@ -30,6 +30,53 @@ public class Cliente {
 
     }
 
+    public Cliente(int id, String nome_cliente){
+        this.id = id;
+        this.nome = nome_cliente;
+    }
+
+    public Cliente(int id, String nome_cliente, int quantidadePedidosCliente) {
+        this.id = id;
+        this.nome_cliente = nome_cliente;
+        this.quantidadePedidosCliente = quantidadePedidosCliente;
+    }
+
+    public Cliente(int id, String statusEntrega, String estadoCliente) {
+        this.statusEntrega = statusEntrega;
+        this.estadoCliente = estadoCliente;
+    }
+
+    public String getNome_cliente() {
+        return nome_cliente;
+    }
+
+    public int getQuantidadePedidosCliente() {
+        return quantidadePedidosCliente;
+    }
+
+    public void setQuantidadePedidosCliente(int quantidadePedidosCliente) {
+        this.quantidadePedidosCliente = quantidadePedidosCliente;
+    }
+
+    public void setNome_cliente(String nome_cliente) {
+        this.nome_cliente = nome_cliente;
+    }
+
+    public String getEstadoCliente() {
+        return estadoCliente;
+    }
+
+    public void setEstadoCliente(String estadoCliente) {
+        this.estadoCliente = estadoCliente;
+    }
+
+    public String getStatusEntrega() {
+        return statusEntrega;
+    }
+
+    public void setStatusEntrega(String statusEntrega) {
+        this.statusEntrega = statusEntrega;
+    }
 
     public int getId() {
         return id;

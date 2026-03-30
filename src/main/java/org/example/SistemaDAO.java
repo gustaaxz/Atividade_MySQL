@@ -272,26 +272,119 @@ public class SistemaDAO {
         }
     }
 
-    public void relatorioEntregaPorMotorista () throws SQLException {
-        /* Total de entregas por motorista */
+    public List<Entrega> relatorioEntregaPorMotorista() throws SQLException {
+        List<Entrega> entregas = new ArrayList<>();
         String command = """
-                
+                SELECT e.pedido_id, m.nome AS nome_motorista, COUNT(e.id) AS quantidadeEntregas
+                FROM Entrega e
+                JOIN Motorista m ON e.motorista_id = m.id
+                GROUP BY e.pedido_id, m.nome;
+            """;
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(command);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                int id = rs.getInt("e.pedido_id");
+                String nome_motorista = rs.getString("nome_motorista");
+                int quantidadeEntregas = rs.getInt("quantidadeEntregas");
+
+                entregas.add(new Entrega(id, nome_motorista, quantidadeEntregas));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao gerar relatório!");
+            e.printStackTrace();
+        }
+        return entregas;
+    }
+
+    public List<Cliente> relatorioVolumePorCliente () throws SQLException {
+        List<Cliente> clientesVolume = new ArrayList<>();
+        String command = """
+                SELECT c.id, c.nome, COUNT(e.id) AS quantidadePedidosCliente
+                FROM Cliente c
+                JOIN Entrega e ON e.pedido_id = pedido_id
+                GROUP BY pedido_id, c.id, c.nome;
                 """;
 
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(command);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                int id = rs.getInt("c.id");
+                String nome_cliente = rs.getString("c.nome");
+                int quantidadePedidosCliente = rs.getInt("quantidadePedidosCliente");
+
+                clientesVolume.add(new Cliente(id, nome_cliente, quantidadePedidosCliente));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao gerar relatório!");
+            e.printStackTrace();
+        }
+        return clientesVolume;
     }
 
-    public void relatorioVolumePorCliente () throws SQLException {
-        /* Clientes com o maior volume de pedidos entregues */
-
-    }
-
-    public void relatorioPendentesPorEstado () throws SQLException {
+    public List<Cliente> relatorioPendentesPorEstado () throws SQLException {
         /* Pedidos Pendentes por Estado */
+        List<Cliente> clienteEstado = new ArrayList<>();
+        String command = """
+                SELECT COUNT(e.id) AS quantidadePedidosPendentes, e.statusEntrega, c.estado\s
+                FROM Cliente c
+                JOIN Pedido p ON p.cliente_id = c.id
+                JOIN Entrega e ON e.pedido_id = p.id
+                GROUP BY e.id, e.statusEntrega, c.estado;
+                """;
 
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(command);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                int id = rs.getInt("quantidadePedidosPendentes");
+                String statusEntrega = rs.getString("e.statusEntrega");
+                String estadoCliente = rs.getString("c.estado");
+
+                clienteEstado.add(new Cliente(id, statusEntrega, estadoCliente));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao gerar relatório!");
+            e.printStackTrace();
+        }
+        return clienteEstado;
     }
 
-    public void relatorioAtrasosPorCidade () throws SQLException {
-        /* Entregas Atrasadas por Cidade */
+    public List<Cliente> relatorioAtrasosCidade() throws SQLException {
+        List<Cliente> atrasosCidade = new ArrayList<>();
+        String command = """
+                SELECT c.cidade, COUNT(e.id) AS total_atrasos
+                FROM Entrega e
+                JOIN Pedido p ON e.pedido_id = p.id
+                JOIN Cliente c ON p.cliente_id = c.id
+                WHERE e.statusEntrega = 'Atrasado'
+                GROUP BY c.cidade;
+                """;
 
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(command);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                String cliente_cidade = rs.getString("c.cidade");
+                int entrega_id = rs.getInt("total_atrasos");
+
+                atrasosCidade.add(new Cliente(entrega_id, cliente_cidade));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao gerar relatório!");
+            e.printStackTrace();
+        }
+        return atrasosCidade;
     }
+
 }
+
+

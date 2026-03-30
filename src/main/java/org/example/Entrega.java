@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Entrega {
     private int id;
-    private int pedido_id;
+    private int pedido_id, quantidadeEntregas;
     private int motorista_id, idEntregaStatus;
     private LocalDate data_saida, data_entrega;
     private String statusEntrega, novoStatusEntrega, cliente_nome, motorista_nome;
@@ -21,6 +21,12 @@ public class Entrega {
     }
 
     public Entrega(int id, String dataEn, String dataSa, String statusEn, String clienteNome, String motoristaNome) {
+    }
+
+    public Entrega(int id, String motorista_nome, int quantidadeEntregas) {
+        this.id = id;
+        this.motorista_nome = motorista_nome;
+        this.quantidadeEntregas = quantidadeEntregas;
     }
 
     private void getNovoStatusEntrega(int id, String novoStatusEntrega) {
@@ -56,6 +62,14 @@ public class Entrega {
         this.data_saida = LocalDate.parse(data_saida, FMT);
         this.data_entrega = LocalDate.parse(data_entrega, FMT);
         this.statusEntrega = statusEntrega;
+    }
+
+    public int getQuantidadeEntregas() {
+        return quantidadeEntregas;
+    }
+
+    public void setQuantidadeEntregas(int quantidadeEntregas) {
+        this.quantidadeEntregas = quantidadeEntregas;
     }
 
     public String getCliente_nome() {

@@ -1,6 +1,8 @@
 package org.example;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -258,7 +260,6 @@ public class Main {
         System.out.println("Qual o ID da Entrega?: ");
         Integer historicoIDEntrega = sc.nextInt();
 
-
         var listarEntregas = new SistemaDAO();
 
         try {
@@ -316,26 +317,70 @@ public class Main {
     }
 
     private static void relatorioEntregasPorMotorista() {
-        /* Total de entregas por motorista */
+        var relatorioEntregasPorMotorista = new SistemaDAO();
+        List<Entrega> entregas = new ArrayList<>();
 
+        try {
+            entregas = relatorioEntregasPorMotorista.relatorioEntregaPorMotorista();
+        } catch (SQLException e) {
+            System.out.println("Erro ao gerar o relatório!");
+            e.printStackTrace();
+        }
+        System.out.println("pedido_id | nome motorista | quantidadeEntregas");
+
+        for(Entrega entrega : entregas){
+            System.out.println(entrega.getPedido_id() + " | " + entrega.getMotorista_nome() + " | " + entrega.getQuantidadeEntregas());
+        }
     }
 
     private static void relatorioVolumePorCliente() {
         /* Clientes com o maior volume de pedidos entregues */
+        var relatorioVolumeClientes = new SistemaDAO();
+        List<Cliente> clientesVolume = new ArrayList<>();
 
-        System.out.println("Opção 2");
+        try {
+            clientesVolume = relatorioVolumeClientes.relatorioVolumePorCliente();
+        } catch (SQLException e) {
+            System.out.println("Erro ao gerar o relatório!");
+        }
+        System.out.println("id | nome cliente | quantidadeEntregasCliente");
+
+        for(Cliente cliente : clientesVolume) {
+            System.out.println(cliente.getId() + " | " + cliente.getNome_cliente() + " | " + cliente.getQuantidadePedidosCliente());
+        }
     }
 
     private static void relatorioPendentesPorEstado() {
-        /* Pedidos Pendentes por Estado */
+        var relatorioPedidoPendenteEstado = new SistemaDAO();
+        List<Cliente> clienteEstado = new ArrayList<>();
 
-        System.out.println("Opção 3");
+        try {
+            clienteEstado = relatorioPedidoPendenteEstado.relatorioPendentesPorEstado();
+        } catch (SQLException e) {
+            System.out.println("Erro ao gerar o relatório!");
+            e.printStackTrace();
+        }
+
+        for(Cliente cliente : clienteEstado) {
+            System.out.println(cliente.getQuantidadePedidosCliente() + " | " + cliente.getStatusEntrega() + " | " + cliente.getEstadoCliente());
+        }
     }
 
-    private static void relatorioAtrasosPorCidade() {
+    private static void relatorioAtrasosPorCidade() throws SQLException {
         /* Entregas Atrasadas por Cidade */
+        var relatorioAtrasosPorCidade = new SistemaDAO();
+        List<Cliente> atrasosPorCidade = new ArrayList<>();
 
-        System.out.println("Opção 4");
+        try {
+            atrasosPorCidade = relatorioAtrasosPorCidade.relatorioAtrasosCidade();
+        } catch (SQLException e) {
+            System.out.println("Erro ao gerar o relatório!");
+            e.printStackTrace();
+        }
+
+        for(Cliente cliente : atrasosPorCidade) {
+            System.out.println(cliente.getCidade() + " | " + cliente.getStatusEntrega());
+        }
     }
 
     public static void buscarPedidoPorDocumento() throws SQLException {
